@@ -339,7 +339,7 @@ class Bomber:
 				if self.snapdeal():
 					print("Sent !!!!")
 					counter +=1
-				if(counter == number_of_messege):
+				if(counter => number_of_messege):
 					break
 
 			#["flipkart","confirmtkt","lenskart","justdial","indialends","apolopharmacy","magicbrick","ajio","mylescars","unacademy","snapdeal"]:
@@ -360,14 +360,14 @@ while True:
 		if(len(usermobile)==10 and usermobile.isdigit()): break
 	except:
 		print("Please check your input !!")
-number_of_messge = 100
+number_of_messege = 100
 try:
 	number_of_messege = int(input("Enter the number of messege you want to send   ( leave empty for default) : "))
 except:
 	pass
-if(number_of_messge>500):
-	number_of_messge=200
-bomber = Bomber(usermobile,number_of_messge)
+if(number_of_messege>500):
+	number_of_messege=200
+bomber = Bomber(usermobile,number_of_messege)
 bomber.startBombing()
 print(" Finished Please run the script again ")
 
