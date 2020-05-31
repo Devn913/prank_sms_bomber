@@ -339,7 +339,7 @@ class Bomber:
 				if self.snapdeal():
 					print("Sent !!!!")
 					counter +=1
-				if(counter => number_of_messege):
+				if(counter >= number_of_messege):
 					break
 
 			#["flipkart","confirmtkt","lenskart","justdial","indialends","apolopharmacy","magicbrick","ajio","mylescars","unacademy","snapdeal"]:
